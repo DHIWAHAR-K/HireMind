@@ -1,0 +1,49 @@
+# Core dependencies
+langchain
+langgraph
+langchain-openai
+langchain-community
+openai
+pydantic
+pydantic-settings
+
+# Memory and state management
+redis
+faiss-cpu
+
+# API and web framework
+fastapi
+uvicorn
+python-multipart
+
+# Data processing
+pandas
+numpy
+python-dateutil
+
+# Environment and configuration
+python-dotenv
+pyyaml
+
+# Testing
+pytest
+pytest-asyncio
+pytest-mock
+
+# Development tools
+black
+flake8
+mypy
+pre-commit
+
+# Logging and monitoring
+python-json-logger
+colorlog
+
+# Real API integrations
+requests
+httpx
+
+# Type hints
+types-pyyaml
+types-redis

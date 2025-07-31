@@ -1,0 +1,176 @@
+{
+  "question_bank": {
+    "behavioral": {
+      "leadership": [
+        "Describe a time when you had to lead a team through a difficult situation",
+        "Tell me about a time you had to make an unpopular decision",
+        "How do you motivate team members who are struggling?",
+        "Describe your leadership style with examples",
+        "Tell me about a time you delegated effectively"
+      ],
+      "problem_solving": [
+        "Walk me through how you approach solving complex problems",
+        "Tell me about a time you identified a problem others missed",
+        "Describe a creative solution you implemented",
+        "How do you prioritize when everything seems urgent?",
+        "Tell me about a time you had to think outside the box"
+      ],
+      "collaboration": [
+        "Describe a successful cross-functional project you worked on",
+        "How do you handle conflicts with colleagues?",
+        "Tell me about a time you had to influence without authority",
+        "Describe how you build relationships with new team members",
+        "Give an example of effective collaboration under pressure"
+      ],
+      "adaptability": [
+        "Tell me about a time you had to adapt to significant change",
+        "How do you handle ambiguity in your work?",
+        "Describe a time when project requirements changed dramatically",
+        "How do you stay current with industry changes?",
+        "Tell me about learning from failure"
+      ]
+    },
+    "technical": {
+      "system_design": [
+        "Design a distributed caching system",
+        "How would you build a real-time chat application?",
+        "Design a ride-sharing service like Uber",
+        "Explain how you'd architect a video streaming platform",
+        "Design a social media feed algorithm"
+      ],
+      "coding_concepts": [
+        "Explain different sorting algorithms and their complexities",
+        "What are the SOLID principles?",
+        "Describe the differences between SQL and NoSQL databases",
+        "Explain microservices vs monolithic architecture",
+        "What are design patterns you commonly use?"
+      ],
+      "data_structures": [
+        "Implement a LRU cache",
+        "Design a thread-safe queue",
+        "Explain when to use different data structures",
+        "Implement a trie for autocomplete",
+        "Design a data structure for a leaderboard"
+      ]
+    },
+    "role_specific": {
+      "product_manager": [
+        "How do you prioritize features for a product roadmap?",
+        "Walk through your process for gathering user requirements",
+        "How do you measure product success?",
+        "Describe a product launch you managed",
+        "How do you balance stakeholder demands?"
+      ],
+      "engineering_manager": [
+        "How do you balance technical work with management duties?",
+        "Describe your approach to performance reviews",
+        "How do you handle underperforming team members?",
+        "What's your philosophy on technical debt?",
+        "How do you foster innovation in your team?"
+      ],
+      "data_scientist": [
+        "Explain a complex model to a non-technical stakeholder",
+        "How do you validate model assumptions?",
+        "Describe your feature engineering process",
+        "How do you handle imbalanced datasets?",
+        "Walk through a recent analysis you conducted"
+      ],
+      "designer": [
+        "Walk through your design process",
+        "How do you incorporate user feedback?",
+        "Describe a design challenge you solved",
+        "How do you balance aesthetics with functionality?",
+        "Show examples from your portfolio"
+      ]
+    },
+    "culture_fit": [
+      "Why are you interested in our company?",
+      "What type of work environment do you thrive in?",
+      "How do you handle work-life balance?",
+      "What are your career goals for the next 5 years?",
+      "What values are most important to you in a workplace?"
+    ]
+  },
+  "evaluation_criteria": {
+    "technical_skills": {
+      "weight": 30,
+      "factors": [
+        "Technical knowledge depth",
+        "Problem-solving approach",
+        "Code quality and best practices",
+        "System design capabilities",
+        "Learning ability"
+      ]
+    },
+    "soft_skills": {
+      "weight": 25,
+      "factors": [
+        "Communication clarity",
+        "Team collaboration",
+        "Leadership potential",
+        "Adaptability",
+        "Emotional intelligence"
+      ]
+    },
+    "experience": {
+      "weight": 25,
+      "factors": [
+        "Relevant industry experience",
+        "Project complexity handled",
+        "Team size managed",
+        "Impact of previous work",
+        "Domain expertise"
+      ]
+    },
+    "culture_fit": {
+      "weight": 20,
+      "factors": [
+        "Alignment with company values",
+        "Work style compatibility",
+        "Growth mindset",
+        "Team dynamics fit",
+        "Long-term potential"
+      ]
+    }
+  },
+  "interview_formats": {
+    "phone_screen": {
+      "duration": 30,
+      "focus": ["Basic qualifications", "Communication skills", "Interest level"],
+      "structure": [
+        "Introduction (5 min)",
+        "Background and experience (15 min)",
+        "Role interest and questions (10 min)"
+      ]
+    },
+    "technical_interview": {
+      "duration": 60,
+      "focus": ["Technical skills", "Problem-solving", "Code quality"],
+      "structure": [
+        "Introduction (5 min)",
+        "Technical questions (20 min)",
+        "Coding exercise (25 min)",
+        "Questions and wrap-up (10 min)"
+      ]
+    },
+    "behavioral_interview": {
+      "duration": 45,
+      "focus": ["Soft skills", "Culture fit", "Past experiences"],
+      "structure": [
+        "Introduction (5 min)",
+        "Behavioral questions (30 min)",
+        "Questions and discussion (10 min)"
+      ]
+    },
+    "panel_interview": {
+      "duration": 90,
+      "focus": ["Cross-functional collaboration", "Deep dive topics", "Team fit"],
+      "structure": [
+        "Introductions (10 min)",
+        "Rotating interviewers (60 min)",
+        "Group discussion (15 min)",
+        "Wrap-up (5 min)"
+      ]
+    }
+  }
+}

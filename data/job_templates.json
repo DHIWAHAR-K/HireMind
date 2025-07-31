@@ -1,0 +1,162 @@
+{
+  "templates": {
+    "software_engineer": {
+      "responsibilities": [
+        "Design, develop, and maintain scalable software solutions",
+        "Collaborate with cross-functional teams to define and implement new features",
+        "Write clean, maintainable, and well-documented code",
+        "Participate in code reviews and provide constructive feedback",
+        "Debug and resolve technical issues across the stack",
+        "Contribute to technical architecture decisions",
+        "Mentor junior developers and share knowledge"
+      ],
+      "required_skills": [
+        "Strong proficiency in one or more programming languages",
+        "Experience with modern web frameworks and libraries",
+        "Understanding of software design patterns and principles",
+        "Experience with version control systems (Git)",
+        "Strong problem-solving and analytical skills",
+        "Excellent communication and collaboration abilities"
+      ],
+      "nice_to_have": [
+        "Experience with cloud platforms (AWS, GCP, Azure)",
+        "Knowledge of containerization (Docker, Kubernetes)",
+        "Experience with CI/CD pipelines",
+        "Contributions to open-source projects",
+        "Experience with agile methodologies"
+      ]
+    },
+    "product_manager": {
+      "responsibilities": [
+        "Define product vision, strategy, and roadmap",
+        "Gather and prioritize product requirements from stakeholders",
+        "Work closely with engineering, design, and marketing teams",
+        "Analyze market trends and competitive landscape",
+        "Define and track key product metrics and KPIs",
+        "Manage product backlog and sprint planning",
+        "Communicate product updates to stakeholders"
+      ],
+      "required_skills": [
+        "Proven experience in product management",
+        "Strong analytical and data-driven decision-making skills",
+        "Excellent communication and presentation skills",
+        "Ability to work with technical teams",
+        "Experience with product analytics tools",
+        "Strong project management skills"
+      ],
+      "nice_to_have": [
+        "Technical background or computer science degree",
+        "Experience in the specific industry vertical",
+        "MBA or advanced degree",
+        "Experience with A/B testing and experimentation",
+        "Knowledge of UX/UI principles"
+      ]
+    },
+    "data_scientist": {
+      "responsibilities": [
+        "Develop and implement machine learning models",
+        "Analyze large datasets to extract insights and patterns",
+        "Collaborate with stakeholders to define data requirements",
+        "Build data pipelines and ETL processes",
+        "Create visualizations and reports to communicate findings",
+        "Conduct A/B tests and experiments",
+        "Stay current with latest ML/AI techniques"
+      ],
+      "required_skills": [
+        "Strong proficiency in Python or R",
+        "Experience with machine learning frameworks (TensorFlow, PyTorch, scikit-learn)",
+        "Solid understanding of statistics and probability",
+        "Experience with SQL and database systems",
+        "Data visualization skills (Tableau, PowerBI, matplotlib)",
+        "Strong communication skills to explain technical concepts"
+      ],
+      "nice_to_have": [
+        "Advanced degree in relevant field",
+        "Experience with big data technologies (Spark, Hadoop)",
+        "Cloud platform experience (AWS, GCP, Azure)",
+        "Experience with deep learning and neural networks",
+        "Published research or contributions to data science community"
+      ]
+    },
+    "marketing_manager": {
+      "responsibilities": [
+        "Develop and execute marketing strategies and campaigns",
+        "Manage marketing budget and ROI tracking",
+        "Oversee content creation and brand messaging",
+        "Coordinate with sales team on lead generation",
+        "Analyze market trends and customer insights",
+        "Manage relationships with external agencies and vendors",
+        "Track and report on marketing KPIs"
+      ],
+      "required_skills": [
+        "Proven marketing experience with campaign management",
+        "Strong understanding of digital marketing channels",
+        "Experience with marketing automation tools",
+        "Analytical skills and data-driven mindset",
+        "Excellent written and verbal communication",
+        "Project management and organizational skills"
+      ],
+      "nice_to_have": [
+        "Experience in B2B or B2C marketing (depending on company)",
+        "Knowledge of SEO/SEM best practices",
+        "Experience with CRM systems",
+        "Design or creative background",
+        "Industry-specific marketing experience"
+      ]
+    }
+  },
+  "interview_questions": {
+    "behavioral": [
+      "Tell me about a time when you had to overcome a significant challenge",
+      "Describe a situation where you had to work with a difficult team member",
+      "Give an example of when you had to learn something new quickly",
+      "Tell me about a time you failed and what you learned from it",
+      "Describe a project you're most proud of and why"
+    ],
+    "technical": {
+      "software_engineer": [
+        "Explain the difference between abstract classes and interfaces",
+        "How would you design a URL shortening service?",
+        "What are the principles of RESTful API design?",
+        "Explain the concept of database indexing",
+        "How do you ensure code quality in your projects?"
+      ],
+      "data_scientist": [
+        "Explain the bias-variance tradeoff",
+        "How do you handle missing data in a dataset?",
+        "What's the difference between supervised and unsupervised learning?",
+        "How would you validate a machine learning model?",
+        "Explain p-value and statistical significance"
+      ]
+    }
+  },
+  "benefits_packages": {
+    "startup": [
+      "Competitive salary and equity package",
+      "Comprehensive health, dental, and vision insurance",
+      "Flexible work arrangements and unlimited PTO",
+      "Professional development budget",
+      "Latest equipment and tools",
+      "Collaborative and fast-paced environment",
+      "Opportunity to shape company culture"
+    ],
+    "medium_company": [
+      "Competitive compensation package",
+      "Health, dental, vision, and life insurance",
+      "401(k) with company matching",
+      "Generous PTO and holiday schedule",
+      "Professional development opportunities",
+      "Wellness programs and gym membership",
+      "Hybrid work options"
+    ],
+    "enterprise": [
+      "Industry-leading compensation",
+      "Comprehensive benefits package",
+      "401(k) with generous matching",
+      "Stock purchase programs",
+      "Tuition reimbursement",
+      "On-site amenities and perks",
+      "Career advancement opportunities"
+    ]
+  }
+}

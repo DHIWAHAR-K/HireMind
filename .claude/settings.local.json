@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(touch:*)",
+      "Bash(tree:*)",
+      "Bash(find:*)",
+      "Bash(chmod:*)",
+      "Bash(cd:*)",
+      "Bash(mv:*)",
+      "Bash(/opt/miniconda3/bin/conda info:*)",
+      "Bash(source:*)",
+      "Bash(conda activate:*)",
+      "Bash(pip install:*)",
+      "Bash(uvicorn:*)",
+      "Bash(brew services start:*)",
+      "Bash(redis-cli:*)",
+      "Bash(npm run build:*)"
+    ],
+    "deny": []
+  }
+}

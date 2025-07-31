@@ -1,0 +1,169 @@
+{
+  "sample_candidates": [
+    {
+      "id": "CAND001",
+      "name": "Sarah Johnson",
+      "email": "sarah.johnson@email.com",
+      "phone": "+1-555-0123",
+      "current_role": "Senior Software Engineer",
+      "current_company": "TechCorp",
+      "years_experience": 7,
+      "education": {
+        "degree": "BS Computer Science",
+        "university": "Stanford University",
+        "year": 2016
+      },
+      "skills": [
+        "Python", "JavaScript", "React", "Node.js", "AWS", 
+        "Docker", "PostgreSQL", "Redis", "GraphQL"
+      ],
+      "certifications": ["AWS Solutions Architect"],
+      "salary_expectation": "$150,000 - $180,000",
+      "location": "San Francisco, CA",
+      "remote_preference": "Hybrid",
+      "availability": "4 weeks notice"
+    },
+    {
+      "id": "CAND002",
+      "name": "Michael Chen",
+      "email": "m.chen@email.com",
+      "phone": "+1-555-0124",
+      "current_role": "Product Manager",
+      "current_company": "StartupXYZ",
+      "years_experience": 5,
+      "education": {
+        "degree": "MBA",
+        "university": "Wharton",
+        "year": 2018
+      },
+      "skills": [
+        "Product Strategy", "Data Analysis", "User Research",
+        "Agile/Scrum", "SQL", "Figma", "JIRA", "Amplitude"
+      ],
+      "salary_expectation": "$140,000 - $160,000",
+      "location": "New York, NY",
+      "remote_preference": "Remote",
+      "availability": "2 weeks notice"
+    },
+    {
+      "id": "CAND003",
+      "name": "Emily Rodriguez",
+      "email": "e.rodriguez@email.com",
+      "phone": "+1-555-0125",
+      "current_role": "Data Scientist",
+      "current_company": "DataCo",
+      "years_experience": 4,
+      "education": {
+        "degree": "MS Data Science",
+        "university": "MIT",
+        "year": 2019
+      },
+      "skills": [
+        "Python", "R", "TensorFlow", "PyTorch", "SQL",
+        "Tableau", "Spark", "Statistics", "Machine Learning"
+      ],
+      "publications": ["ML in Healthcare - IEEE 2022"],
+      "salary_expectation": "$130,000 - $150,000",
+      "location": "Boston, MA",
+      "remote_preference": "Hybrid",
+      "availability": "Immediate"
+    }
+  ],
+  "evaluation_templates": {
+    "phone_screen": {
+      "criteria": {
+        "communication": {
+          "rating": null,
+          "notes": "",
+          "weight": 0.3
+        },
+        "experience_relevance": {
+          "rating": null,
+          "notes": "",
+          "weight": 0.3
+        },
+        "interest_level": {
+          "rating": null,
+          "notes": "",
+          "weight": 0.2
+        },
+        "salary_alignment": {
+          "rating": null,
+          "notes": "",
+          "weight": 0.2
+        }
+      },
+      "recommendation": null,
+      "next_steps": ""
+    },
+    "technical_interview": {
+      "criteria": {
+        "problem_solving": {
+          "rating": null,
+          "notes": "",
+          "weight": 0.3
+        },
+        "technical_knowledge": {
+          "rating": null,
+          "notes": "",
+          "weight": 0.3
+        },
+        "code_quality": {
+          "rating": null,
+          "notes": "",
+          "weight": 0.2
+        },
+        "system_design": {
+          "rating": null,
+          "notes": "",
+          "weight": 0.2
+        }
+      },
+      "recommendation": null,
+      "strengths": [],
+      "areas_for_improvement": []
+    }
+  },
+  "pipeline_stages": [
+    {
+      "stage": "Applied",
+      "description": "Candidate has submitted application",
+      "average_duration_days": 1
+    },
+    {
+      "stage": "Screening",
+      "description": "Initial review of application",
+      "average_duration_days": 3
+    },
+    {
+      "stage": "Phone Screen",
+      "description": "Initial phone interview",
+      "average_duration_days": 5
+    },
+    {
+      "stage": "Technical Interview",
+      "description": "Technical skills assessment",
+      "average_duration_days": 7
+    },
+    {
+      "stage": "On-site/Final",
+      "description": "Final round interviews",
+      "average_duration_days": 10
+    },
+    {
+      "stage": "Reference Check",
+      "description": "Checking provided references",
+      "average_duration_days": 3
+    },
+    {
+      "stage": "Offer",
+      "description": "Offer extended",
+      "average_duration_days": 2
+    },
+    {
+      "stage": "Accepted/Rejected",
+      "description": "Final decision",
+      "average_duration_days": 5
+    }
+  ]
+}
