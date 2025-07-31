@@ -44,30 +44,32 @@ export default function Dashboard() {
     }
   )
 
+  const profiles = profilesData?.profiles || []
+  
   const stats = [
     {
       title: 'Active Hirings',
-      value: profilesData?.profiles?.filter((p: any) => p.status === 'active')?.length || 12,
+      value: profiles.filter((p: any) => p.status === 'active').length,
       icon: <RocketIcon />,
-      trend: '+23%',
+      trend: profiles.length > 0 ? '+23%' : '0%',
     },
     {
       title: 'Completed',
-      value: profilesData?.profiles?.filter((p: any) => p.status === 'completed')?.length || 8,
+      value: profiles.filter((p: any) => p.status === 'completed').length,
       icon: <CheckCircleIcon />,
-      trend: '+18%',
+      trend: profiles.length > 0 ? '+18%' : '0%',
     },
     {
       title: 'In Progress',
-      value: profilesData?.profiles?.filter((p: any) => p.status === 'draft')?.length || 5,
+      value: profiles.filter((p: any) => p.status === 'draft' || p.status === 'in_progress').length,
       icon: <SpeedIcon />,
-      trend: '+12%',
+      trend: profiles.length > 0 ? '+12%' : '0%',
     },
     {
       title: 'Total Profiles',
-      value: profilesData?.total || 25,
+      value: profiles.length,
       icon: <AnalyticsIcon />,
-      trend: '+31%',
+      trend: profiles.length > 0 ? '+31%' : '0%',
     },
   ]
 
@@ -238,9 +240,9 @@ export default function Dashboard() {
                 <Box sx={{ p: 4, textAlign: 'center' }}>
                   <Typography color="text.secondary">Loading hiring activities...</Typography>
                 </Box>
-              ) : profilesData?.profiles?.length ? (
+              ) : profiles.length > 0 ? (
                 <List sx={{ p: 0 }}>
-                  {profilesData?.profiles?.map((profile: any, index: number) => (
+                  {profiles.map((profile: any, index: number) => (
                     <Fade in={true} style={{ transitionDelay: `${index * 100}ms` }} key={profile.session_id}>
                       <ListItem
                         sx={{
@@ -303,6 +305,9 @@ export default function Dashboard() {
                 <Box sx={{ p: 4, textAlign: 'center' }}>
                   <Typography color="text.secondary" sx={{ mb: 2 }}>
                     🎯 No hiring activities yet
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                    Create your first hiring profile to see activity here
                   </Typography>
                   <Button 
                     variant="contained" 
@@ -389,29 +394,37 @@ export default function Dashboard() {
                 </Box>
                 
                 {/* Performance Metrics Embedded */}
-                <Box sx={{ mt: 3, pt: 3, borderTop: '1px solid', borderColor: 'divider' }}>
-                  <Typography variant="h6" fontWeight="600" sx={{ color: 'text.primary', mb: 2 }}>
-                    📊 This Month's Performance
-                  </Typography>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Typography variant="body2" color="text.secondary">Avg. Time to Hire</Typography>
-                      <Typography variant="subtitle2" fontWeight="700">18 days</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Typography variant="body2" color="text.secondary">Success Rate</Typography>
-                      <Typography variant="subtitle2" fontWeight="700" color="success.main">94%</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Typography variant="body2" color="text.secondary">Cost per Hire</Typography>
-                      <Typography variant="subtitle2" fontWeight="700">$2,400</Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Typography variant="body2" color="text.secondary">Quality Score</Typography>
-                      <Typography variant="subtitle2" fontWeight="700" color="primary.main">9.2/10</Typography>
+                {profiles.length > 0 && (
+                  <Box sx={{ mt: 3, pt: 3, borderTop: '1px solid', borderColor: 'divider' }}>
+                    <Typography variant="h6" fontWeight="600" sx={{ color: 'text.primary', mb: 2 }}>
+                      📊 This Month's Performance
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body2" color="text.secondary">Total Hirings</Typography>
+                        <Typography variant="subtitle2" fontWeight="700">{profiles.length}</Typography>
+                      </Box>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body2" color="text.secondary">Completed</Typography>
+                        <Typography variant="subtitle2" fontWeight="700" color="success.main">
+                          {profiles.filter((p: any) => p.status === 'completed').length}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body2" color="text.secondary">In Progress</Typography>
+                        <Typography variant="subtitle2" fontWeight="700">
+                          {profiles.filter((p: any) => p.status === 'active' || p.status === 'draft').length}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body2" color="text.secondary">Success Rate</Typography>
+                        <Typography variant="subtitle2" fontWeight="700" color="primary.main">
+                          {profiles.length > 0 ? Math.round((profiles.filter((p: any) => p.status === 'completed').length / profiles.length) * 100) : 0}%
+                        </Typography>
+                      </Box>
                     </Box>
                   </Box>
-                </Box>
+                )}
               </CardContent>
             </Card>
           </Box>
@@ -443,7 +456,7 @@ export default function Dashboard() {
               {/* AI Tips Section */}
               <Box sx={{ mb: 3 }}>
                 <Typography variant="subtitle1" fontWeight="600" sx={{ color: 'text.primary', mb: 2 }}>
-                  AI Tips & Insights
+                  💡 AI Tips & Best Practices
                 </Typography>
                 <List sx={{ p: 0 }}>
                   <ListItem sx={{ px: 0, py: 1 }}>
@@ -457,7 +470,7 @@ export default function Dashboard() {
                     </ListItemIcon>
                     <ListItemText
                       primary={<Typography variant="body2" fontWeight="600">🎯 Define clear requirements</Typography>}
-                      secondary={<Typography variant="caption">40% more qualified candidates</Typography>}
+                      secondary={<Typography variant="caption">Better candidate matching</Typography>}
                     />
                   </ListItem>
                   <ListItem sx={{ px: 0, py: 1 }}>
@@ -470,8 +483,8 @@ export default function Dashboard() {
                       }} />
                     </ListItemIcon>
                     <ListItemText
-                      primary={<Typography variant="body2" fontWeight="600">📊 Structured interviews</Typography>}
-                      secondary={<Typography variant="caption">25% better hiring accuracy</Typography>}
+                      primary={<Typography variant="body2" fontWeight="600">📊 Use structured interviews</Typography>}
+                      secondary={<Typography variant="caption">Improved hiring accuracy</Typography>}
                     />
                   </ListItem>
                   <ListItem sx={{ px: 0, py: 1 }}>
@@ -484,53 +497,52 @@ export default function Dashboard() {
                       }} />
                     </ListItemIcon>
                     <ListItemText
-                      primary={<Typography variant="body2" fontWeight="600">⚡ Track metrics</Typography>}
-                      secondary={<Typography variant="caption">Real-time hiring insights</Typography>}
+                      primary={<Typography variant="body2" fontWeight="600">⚡ Track your progress</Typography>}
+                      secondary={<Typography variant="caption">Monitor hiring metrics</Typography>}
                     />
                   </ListItem>
                 </List>
               </Box>
 
-              {/* Team Activity Section */}
+              {/* Recent Activities Section */}
               <Box sx={{ pt: 2, borderTop: '1px solid', borderColor: 'divider', flex: 1 }}>
                 <Typography variant="subtitle1" fontWeight="600" sx={{ color: 'text.primary', mb: 2 }}>
-                  👥 Team Activity
+                  📋 Recent Activities
                 </Typography>
-                <List sx={{ p: 0 }}>
-                  <ListItem sx={{ px: 0, py: 1 }}>
-                    <ListItemIcon>
-                      <Avatar sx={{ width: 28, height: 28, backgroundColor: 'success.main', fontSize: '0.75rem' }}>
-                        JS
-                      </Avatar>
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={<Typography variant="body2" fontWeight="600">John completed Senior Dev interview</Typography>}
-                      secondary={<Typography variant="caption" color="text.secondary">2 hours ago</Typography>}
-                    />
-                  </ListItem>
-                  <ListItem sx={{ px: 0, py: 1 }}>
-                    <ListItemIcon>
-                      <Avatar sx={{ width: 28, height: 28, backgroundColor: 'primary.main', fontSize: '0.75rem' }}>
-                        AM
-                      </Avatar>
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={<Typography variant="body2" fontWeight="600">Alice started Product Manager hiring</Typography>}
-                      secondary={<Typography variant="caption" color="text.secondary">5 hours ago</Typography>}
-                    />
-                  </ListItem>
-                  <ListItem sx={{ px: 0, py: 1 }}>
-                    <ListItemIcon>
-                      <Avatar sx={{ width: 28, height: 28, backgroundColor: 'warning.main', fontSize: '0.75rem' }}>
-                        RB
-                      </Avatar>
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={<Typography variant="body2" fontWeight="600">Robert approved offer letter</Typography>}
-                      secondary={<Typography variant="caption" color="text.secondary">1 day ago</Typography>}
-                    />
-                  </ListItem>
-                </List>
+                {profiles.length > 0 ? (
+                  <List sx={{ p: 0 }}>
+                    {profiles.slice(0, 3).map((profile: any, index: number) => (
+                      <ListItem key={profile.session_id} sx={{ px: 0, py: 1 }}>
+                        <ListItemIcon>
+                          <Avatar sx={{ 
+                            width: 28, 
+                            height: 28, 
+                            backgroundColor: profile.status === 'completed' ? 'success.main' : 'primary.main', 
+                            fontSize: '0.75rem' 
+                          }}>
+                            {profile.role_title?.charAt(0) || 'H'}
+                          </Avatar>
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={
+                            <Typography variant="body2" fontWeight="600">
+                              {profile.status === 'completed' ? 'Completed' : 'Created'} {profile.role_title || 'hiring process'}
+                            </Typography>
+                          }
+                          secondary={
+                            <Typography variant="caption" color="text.secondary">
+                              {profile.created_at ? new Date(profile.created_at).toLocaleDateString() : 'Recently'}
+                            </Typography>
+                          }
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                ) : (
+                  <Typography variant="body2" color="text.secondary" sx={{ py: 2 }}>
+                    No recent activities. Start a hiring process to see updates here.
+                  </Typography>
+                )}
               </Box>
             </CardContent>
           </Card>

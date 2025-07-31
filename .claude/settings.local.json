@@ -15,7 +15,9 @@
       "Bash(uvicorn:*)",
       "Bash(brew services start:*)",
       "Bash(redis-cli:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(npm run dev:*)",
+      "Bash(cd:*)"
     ],
     "deny": []
   }
