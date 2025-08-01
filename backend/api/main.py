@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
@@ -10,9 +10,12 @@ import re
 
 from src.workflows import HiringWorkflow
 from src.memory import RedisMemoryStore
-from src.models import HiringProfile
+from src.models import HiringProfile, User
 from src.agents import RoleDefinitionAgent, JDGeneratorAgent, InterviewPlannerAgent
 from src.tools import get_all_tools
+from src.database import init_db, test_connection
+from src.auth import get_current_user, get_current_active_user
+from api.routes.auth import router as auth_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -21,7 +24,7 @@ logger = logging.getLogger(__name__)
 # Initialize FastAPI app
 app = FastAPI(
     title="HireMind API",
-    description="AI-powered HR hiring process planning API",
+    description="AI-powered HR hiring process planning API with authentication",
     version="1.0.0"
 )
 
@@ -33,6 +36,28 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include authentication routes
+app.include_router(auth_router)
+
+# Initialize database on startup
+@app.on_event("startup")
+async def startup_event():
+    """Initialize database and test connections on startup."""
+    try:
+        # Initialize SQLite database
+        init_db()
+        logger.info("Database initialized successfully")
+        
+        # Test database connection
+        if test_connection():
+            logger.info("Database connection verified")
+        else:
+            logger.warning("Database connection test failed")
+            
+    except Exception as e:
+        logger.error(f"Startup error: {e}")
+        # Don't fail startup, but log the error
 
 # Initialize Redis memory store
 redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
@@ -140,7 +165,11 @@ async def run_workflow_background(request: WorkflowStartRequest, session_id: str
         memory_store.save_workflow_state(session_id, error_state)
 
 @app.post("/api/workflow/start", response_model=WorkflowResponse)
-async def start_workflow(request: WorkflowStartRequest, background_tasks: BackgroundTasks):
+async def start_workflow(
+    request: WorkflowStartRequest, 
+    background_tasks: BackgroundTasks,
+    current_user: User = Depends(get_current_active_user)
+):
     """Start a new hiring workflow."""
     try:
         # Generate session ID if not provided
@@ -165,7 +194,7 @@ async def start_workflow(request: WorkflowStartRequest, background_tasks: Backgr
 
 
 @app.get("/api/workflow/{session_id}", response_model=WorkflowResponse)
-async def get_workflow_status(session_id: str):
+async def get_workflow_status(session_id: str, current_user: User = Depends(get_current_active_user)):
     """Get workflow status and results."""
     try:
         # Load from Redis
@@ -202,7 +231,7 @@ async def get_workflow_status(session_id: str):
 
 
 @app.post("/api/agent/run", response_model=AgentResponse)
-async def run_agent(request: AgentRequest):
+async def run_agent(request: AgentRequest, current_user: User = Depends(get_current_active_user)):
     """Run a specific agent."""
     try:
         # Validate agent type
@@ -247,7 +276,7 @@ async def run_agent(request: AgentRequest):
 
 
 @app.get("/api/profiles", response_model=ProfileListResponse)
-async def list_profiles(limit: int = 10):
+async def list_profiles(limit: int = 10, current_user: User = Depends(get_current_active_user)):
     """List recent hiring profiles."""
     try:
         profiles = memory_store.list_recent_profiles(limit=limit)
@@ -263,7 +292,7 @@ async def list_profiles(limit: int = 10):
 
 
 @app.get("/api/profiles/{session_id}")
-async def get_profile(session_id: str):
+async def get_profile(session_id: str, current_user: User = Depends(get_current_active_user)):
     """Get a specific hiring profile."""
     try:
         profile = memory_store.load_hiring_profile(session_id)
@@ -281,7 +310,7 @@ async def get_profile(session_id: str):
 
 
 @app.delete("/api/profiles/{session_id}")
-async def delete_profile(session_id: str):
+async def delete_profile(session_id: str, current_user: User = Depends(get_current_active_user)):
     """Delete a hiring profile."""
     try:
         success = memory_store.clear_session(session_id)

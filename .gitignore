@@ -125,3 +125,4 @@ logs/
 
 
 /backend/.env
+/backend/hiremind.db

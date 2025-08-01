@@ -13,6 +13,7 @@ from .hiring_models import (
     OfferLetter,
     HiringProfile
 )
+from .user import User
 
 __all__ = [
     "ExperienceLevel",
@@ -27,5 +28,6 @@ __all__ = [
     "HiringTimeline",
     "SalaryBenchmark",
     "OfferLetter",
-    "HiringProfile"
+    "HiringProfile",
+    "User"
 ]

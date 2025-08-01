@@ -13,7 +13,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     // Add auth token if available
-    const token = localStorage.getItem('auth_token')
+    const token = localStorage.getItem('hiremind_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -30,12 +30,16 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       // Handle unauthorized access
-      localStorage.removeItem('auth_token')
-      window.location.href = '/login'
+      localStorage.removeItem('hiremind_token')
+      // Don't redirect here, let the auth state handle it
+      window.dispatchEvent(new Event('unauthorized'))
     }
     return Promise.reject(error)
   }
 )
+
+// Export the api client for use in other services
+export const apiClient = api
 
 // Workflow API
 export const workflowAPI = {

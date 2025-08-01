@@ -12,6 +12,9 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemButton,
+  Avatar,
+  Menu,
+  MenuItem,
 } from '@mui/material'
 import {
   Menu as MenuIcon,
@@ -20,11 +23,14 @@ import {
   Person as PersonIcon,
   Psychology as PsychologyIcon,
   Work as WorkIcon,
+  Logout as LogoutIcon,
+  AccountCircle as AccountCircleIcon,
 } from '@mui/icons-material'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../store'
+import { RootState, AppDispatch } from '../store'
 import { toggleSidebar } from '../store/uiSlice'
+import { logoutUser } from '../store/authSlice'
 
 const drawerWidth = 240
 
@@ -42,8 +48,10 @@ const menuItems = [
 export default function Layout({ children }: LayoutProps) {
   const navigate = useNavigate()
   const location = useLocation()
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const sidebarOpen = useSelector((state: RootState) => state.ui.sidebarOpen)
+  const { user } = useSelector((state: RootState) => state.auth)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
   const handleDrawerToggle = () => {
     dispatch(toggleSidebar())
@@ -51,6 +59,20 @@ export default function Layout({ children }: LayoutProps) {
 
   const handleNavigation = (path: string) => {
     navigate(path)
+  }
+
+  const handleUserMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleUserMenuClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleLogout = async () => {
+    await dispatch(logoutUser())
+    handleUserMenuClose()
+    navigate('/login')
   }
 
   const drawer = (
@@ -98,6 +120,37 @@ export default function Layout({ children }: LayoutProps) {
           </ListItem>
         ))}
       </List>
+      
+      {/* User Section at bottom */}
+      <Box sx={{ position: 'absolute', bottom: 0, width: '100%', p: 2 }}>
+        <Divider sx={{ mb: 2 }} />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            cursor: 'pointer',
+            p: 1,
+            borderRadius: 1,
+            '&:hover': {
+              backgroundColor: 'grey.50',
+            },
+          }}
+          onClick={handleUserMenuOpen}
+        >
+          <Avatar sx={{ width: 32, height: 32, backgroundColor: 'primary.main' }}>
+            {user?.first_name?.charAt(0) || user?.username?.charAt(0) || 'U'}
+          </Avatar>
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography variant="subtitle2" noWrap>
+              {user?.first_name} {user?.last_name}
+            </Typography>
+            <Typography variant="caption" color="text.secondary" noWrap>
+              {user?.email}
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
     </div>
   )
 
@@ -147,6 +200,34 @@ export default function Layout({ children }: LayoutProps) {
       >
         {children}
       </Box>
+
+      {/* User Menu */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleUserMenuClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+      >
+        <MenuItem onClick={handleUserMenuClose}>
+          <ListItemIcon>
+            <AccountCircleIcon />
+          </ListItemIcon>
+          Profile
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+      </Menu>
     </Box>
   )
 }
