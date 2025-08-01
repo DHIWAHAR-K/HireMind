@@ -165,124 +165,182 @@ export default function AgentPlayground() {
         p: 2,
         width: '100%',
       }}>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{ height: 'calc(100vh - 140px)' }}>
         {/* Input Section */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Agent Input
-              </Typography>
-              
-              <form onSubmit={handleSubmit}>
-                <FormControl fullWidth sx={{ mb: 3 }}>
-                  <InputLabel>Select Agent</InputLabel>
-                  <Select
-                    value={selectedAgent}
-                    label="Select Agent"
-                    onChange={(e) => setSelectedAgent(e.target.value)}
-                  >
-                    {agents.map((agent) => (
-                      <MenuItem key={agent.value} value={agent.value}>
-                        <Box>
-                          <Typography variant="subtitle2">{agent.label}</Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            {agent.description}
-                          </Typography>
-                        </Box>
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
-                  value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  placeholder="Enter your request for the agent..."
-                  disabled={status === 'loading' || !selectedAgent}
-                  sx={{ mb: 3 }}
-                />
-
-                <Box sx={{ display: 'flex', gap: 2 }}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    startIcon={status === 'loading' ? <CircularProgress size={20} /> : <SendIcon />}
-                    disabled={!selectedAgent || !inputText.trim() || status === 'loading'}
-                  >
-                    {status === 'loading' ? 'Processing...' : 'Run Agent'}
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    startIcon={<ClearIcon />}
-                    onClick={handleClear}
-                    disabled={responses.length === 0}
-                  >
-                    Clear History
-                  </Button>
-                </Box>
-              </form>
-
-              {error && (
-                <Alert severity="error" sx={{ mt: 2 }}>
-                  {error}
-                </Alert>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Examples */}
-          {selectedAgent && examples[selectedAgent as keyof typeof examples] && (
-            <Card sx={{ mt: 3 }}>
-              <CardContent>
+        <Grid item xs={12} md={6} sx={{ height: '100%' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', gap: 3 }}>
+            <Card sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <Typography variant="h6" gutterBottom>
-                  Example Prompts for {currentAgent?.label}
+                  Agent Input
                 </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  {examples[selectedAgent as keyof typeof examples].map((example, index) => (
-                    <Paper
-                      key={index}
-                      sx={{
-                        p: 2,
-                        cursor: 'pointer',
-                        border: 1,
-                        borderColor: 'divider',
-                        '&:hover': {
-                          borderColor: 'primary.main',
-                          backgroundColor: 'action.hover',
-                        },
-                      }}
-                      onClick={() => handleExampleClick(example)}
+                
+                <form onSubmit={handleSubmit} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <FormControl fullWidth sx={{ mb: 3 }}>
+                    <InputLabel>Select Agent</InputLabel>
+                    <Select
+                      value={selectedAgent}
+                      label="Select Agent"
+                      onChange={(e) => setSelectedAgent(e.target.value)}
                     >
-                      <Typography variant="body2">{example}</Typography>
-                    </Paper>
-                  ))}
-                </Box>
+                      {agents.map((agent) => (
+                        <MenuItem key={agent.value} value={agent.value}>
+                          <Box>
+                            <Typography variant="subtitle2">{agent.label}</Typography>
+                            <Typography variant="caption" color="text.secondary">
+                              {agent.description}
+                            </Typography>
+                          </Box>
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={8}
+                    value={inputText}
+                    onChange={(e) => setInputText(e.target.value)}
+                    placeholder="Enter your request for the agent..."
+                    disabled={status === 'loading' || !selectedAgent}
+                    sx={{ 
+                      mb: 3, 
+                      flex: 1,
+                      '& .MuiInputBase-root': {
+                        maxHeight: '300px',
+                        overflow: 'auto',
+                        scrollBehavior: 'smooth',
+                        '&::-webkit-scrollbar': {
+                          width: '6px',
+                        },
+                        '&::-webkit-scrollbar-track': {
+                          backgroundColor: '#f1f1f1',
+                          borderRadius: '3px',
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                          backgroundColor: '#c1c1c1',
+                          borderRadius: '3px',
+                          '&:hover': {
+                            backgroundColor: '#a8a8a8',
+                          },
+                        },
+                        '&::-webkit-scrollbar-corner': {
+                          backgroundColor: 'transparent',
+                        },
+                        // Firefox scrollbar styling
+                        scrollbarWidth: 'thin',
+                        scrollbarColor: '#c1c1c1 #f1f1f1',
+                      }
+                    }}
+                  />
+
+                  <Box sx={{ display: 'flex', gap: 2, mt: 'auto' }}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      startIcon={status === 'loading' ? <CircularProgress size={20} /> : <SendIcon />}
+                      disabled={!selectedAgent || !inputText.trim() || status === 'loading'}
+                    >
+                      {status === 'loading' ? 'Processing...' : 'Run Agent'}
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      startIcon={<ClearIcon />}
+                      onClick={handleClear}
+                      disabled={responses.length === 0}
+                    >
+                      Clear History
+                    </Button>
+                  </Box>
+                </form>
+
+                {error && (
+                  <Alert severity="error" sx={{ mt: 2 }}>
+                    {error}
+                  </Alert>
+                )}
               </CardContent>
             </Card>
-          )}
+
+            {/* Examples */}
+            {selectedAgent && examples[selectedAgent as keyof typeof examples] && (
+              <Card sx={{ maxHeight: '250px', overflow: 'hidden' }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Example Prompts for {currentAgent?.label}
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, maxHeight: '180px', overflowY: 'auto' }}>
+                    {examples[selectedAgent as keyof typeof examples].map((example, index) => (
+                      <Paper
+                        key={index}
+                        sx={{
+                          p: 2,
+                          cursor: 'pointer',
+                          border: 1,
+                          borderColor: 'divider',
+                          '&:hover': {
+                            borderColor: 'primary.main',
+                            backgroundColor: 'action.hover',
+                          },
+                        }}
+                        onClick={() => handleExampleClick(example)}
+                      >
+                        <Typography variant="body2">{example}</Typography>
+                      </Paper>
+                    ))}
+                  </Box>
+                </CardContent>
+              </Card>
+            )}
+          </Box>
         </Grid>
 
         {/* Responses Section */}
-        <Grid item xs={12} md={6}>
-          <Card>
-            <CardContent>
+        <Grid item xs={12} md={6} sx={{ height: '100%' }}>
+          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
                 <PsychologyIcon color="primary" />
                 <Typography variant="h6">Agent Responses</Typography>
               </Box>
 
               {responses.length === 0 ? (
-                <Box sx={{ textAlign: 'center', py: 4 }}>
+                <Box sx={{ textAlign: 'center', py: 4, flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Typography variant="body2" color="text.secondary">
                     No responses yet. Select an agent and ask a question to get started.
                   </Typography>
                 </Box>
               ) : (
-                <Box sx={{ maxHeight: '600px', overflowY: 'auto' }}>
+                <Box sx={{ 
+                  flex: 1, 
+                  overflowY: 'auto',
+                  overflowX: 'hidden', // Prevent horizontal scroll
+                  pr: 1,
+                  minHeight: 0, // Important: allows flex child to shrink below content size
+                  maxHeight: '100%', // Ensure it doesn't exceed container
+                  scrollBehavior: 'smooth', // Smooth scrolling
+                  '&::-webkit-scrollbar': {
+                    width: '8px',
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    backgroundColor: '#f1f1f1',
+                    borderRadius: '4px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#c1c1c1',
+                    borderRadius: '4px',
+                    '&:hover': {
+                      backgroundColor: '#a8a8a8',
+                    },
+                  },
+                  '&::-webkit-scrollbar-corner': {
+                    backgroundColor: 'transparent',
+                  },
+                  // Firefox scrollbar styling
+                  scrollbarWidth: 'thin',
+                  scrollbarColor: '#c1c1c1 #f1f1f1',
+                }}>
                   {responses.map((response, index) => (
                     <Box key={index} sx={{ mb: 3 }}>
                       <Box sx={{ mb: 1 }}>
@@ -306,7 +364,9 @@ export default function AgentPlayground() {
                         <Typography variant="body2" fontWeight="medium" gutterBottom>
                           Input:
                         </Typography>
-                        <Typography variant="body2">{response.input}</Typography>
+                        <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
+                          {response.input}
+                        </Typography>
                       </Paper>
                       
                       <Paper
@@ -315,17 +375,65 @@ export default function AgentPlayground() {
                           backgroundColor: 'background.paper',
                           border: 1,
                           borderColor: 'divider',
+                          minHeight: '300px', // Ensure minimum height
+                          display: 'flex',
+                          flexDirection: 'column',
                         }}
                       >
                         <Typography variant="body2" fontWeight="medium" gutterBottom>
                           Response:
                         </Typography>
-                        <Box component="pre" sx={{ 
-                          whiteSpace: 'pre-wrap',
-                          fontFamily: 'inherit',
-                          fontSize: 'inherit',
-                          m: 0
-                        }}>
+                        <Box 
+                          component="div"
+                          sx={{ 
+                            whiteSpace: 'pre-wrap',
+                            fontFamily: 'inherit',
+                            fontSize: 'inherit',
+                            m: 0,
+                            flex: 1, // Take up remaining space
+                            overflowY: 'auto',
+                            overflowX: 'hidden', // Prevent horizontal scroll
+                            wordBreak: 'break-word',
+                            lineHeight: 1.6,
+                            padding: 1,
+                            backgroundColor: '#fafafa',
+                            borderRadius: 1,
+                            border: '1px solid #e0e0e0',
+                            minHeight: '250px', // Ensure content area has good height
+                            maxHeight: '400px', // Add max height to trigger scroll when needed
+                            scrollBehavior: 'smooth', // Smooth scrolling
+                            cursor: 'text', // Show text cursor for better UX
+                            '&::-webkit-scrollbar': {
+                              width: '6px',
+                            },
+                            '&::-webkit-scrollbar-track': {
+                              backgroundColor: '#f1f1f1',
+                              borderRadius: '3px',
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                              backgroundColor: '#c1c1c1',
+                              borderRadius: '3px',
+                              '&:hover': {
+                                backgroundColor: '#a8a8a8',
+                              },
+                            },
+                            '&::-webkit-scrollbar-corner': {
+                              backgroundColor: 'transparent',
+                            },
+                            // Firefox scrollbar styling
+                            scrollbarWidth: 'thin',
+                            scrollbarColor: '#c1c1c1 #f1f1f1',
+                            // Hover effects for better interaction feedback
+                            '&:hover': {
+                              backgroundColor: '#f5f5f5',
+                            },
+                            // Focus styling for accessibility
+                            '&:focus-within': {
+                              outline: '2px solid #1976d2',
+                              outlineOffset: '2px',
+                            },
+                          }}
+                        >
                           {cleanMarkdownText(response.output)}
                         </Box>
                       </Paper>
