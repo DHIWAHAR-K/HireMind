@@ -69,19 +69,19 @@ The system demonstrates advanced multi-step reasoning, seamless tool integration
 ### Directory Structure
 ```
 HireMind/
-├── backend/                    # FastAPI Backend Application
-│   ├── api/                    # REST API Endpoints
-│   │   ├── main.py            # FastAPI app configuration
-│   │   └── routes/            # API route handlers
-│   ├── src/                   # Core Business Logic
-│   │   ├── agents/            # Specialized AI Agents
-│   │   ├── workflows/         # LangGraph Workflow Definitions
-│   │   ├── tools/             # OpenAI Function Tools
-│   │   ├── memory/            # Redis Memory Management
-│   │   └── models/            # Pydantic Data Models
-│   ├── tests/                 # Comprehensive Test Suite
-│   └── requirements.txt       # Python Dependencies
-├── frontend/                  # React Frontend Application
+├── backend/                  # FastAPI Backend Application
+│   ├── api/                  # REST API Endpoints
+│   │   ├── main.py           # FastAPI app configuration
+│   │   └── routes/           # API route handlers
+│   ├── src/                  # Core Business Logic
+│   │   ├── agents/           # Specialized AI Agents
+│   │   ├── workflows/        # LangGraph Workflow Definitions
+│   │   ├── tools/            # OpenAI Function Tools
+│   │   ├── memory/           # Redis Memory Management
+│   │   └── models/           # Pydantic Data Models
+│   ├── tests/                # Comprehensive Test Suite
+│   └── requirements.txt      # Python Dependencies
+├── frontend/                 # React Frontend Application
 │   ├── src/
 │   │   ├── pages/            # Main Application Pages
 │   │   ├── components/       # Reusable UI Components
