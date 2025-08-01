@@ -41,29 +41,29 @@ The system demonstrates advanced multi-step reasoning, seamless tool integration
 
 ### High-Level Architecture
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                         React Frontend                           │
-│  ┌─────────────┐  ┌──────────────┐  ┌───────────────────────┐ │
-│  │  Dashboard  │  │ New Hiring   │  │  Agent Playground     │ │
-│  │             │  │   Wizard     │  │                       │ │
-│  └─────────────┘  └──────────────┘  └───────────────────────┘ │
-└────────────────────────────┬────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                         React Frontend                       │
+│  ┌─────────────┐  ┌──────────────┐  ┌─────────────────────┐  │
+│  │  Dashboard  │  │ New Hiring   │  │  Agent Playground   │  │
+│  │             │  │   Wizard     │  │                     │  │
+│  └─────────────┘  └──────────────┘  └─────────────────────┘  │
+└────────────────────────────┬─────────────────────────────────┘
                              │ REST API
-┌────────────────────────────┴────────────────────────────────────┐
-│                      FastAPI Backend                             │
-│  ┌─────────────────────────────────────────────────────────┐   │
-│  │              LangGraph Workflow Engine                   │   │
+┌────────────────────────────┴─────────────────────────────────┐
+│                      FastAPI Backend                         │
+│  ┌───────────────────────────────────────────────────────┐   │
+│  │              LangGraph Workflow Engine                │   │
 │  │  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐ │   │
 │  │  │Role │→ │ JD  │→ │Inter│→ │Time │→ │Sal. │→ │Offer│ │   │
 │  │  │Def. │  │Gen. │  │view │  │line │  │Bench│  │Gen. │ │   │
 │  │  └─────┘  └─────┘  └─────┘  └─────┘  └─────┘  └─────┘ │   │
-│  └─────────────────────────────────────────────────────────┘   │
-│                              │                                   │
-│  ┌───────────────┐  ┌───────┴────────┐  ┌──────────────────┐  │
-│  │  Redis Store  │  │ OpenAI Tools   │  │  Background Tasks │  │
-│  │  (Memory)     │  │ (Functions)     │  │  (Async Workers) │  │
-│  └───────────────┘  └────────────────┘  └──────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
+│  └───────────────────────────────────────────────────────┘   │
+│                             │                                │
+│  ┌───────────────┐  ┌───────┴────────┐  ┌──────────────────┐ │
+│  │  Redis Store  │  │ OpenAI Tools   │  │  Background Tasks│ │
+│  │  (Memory)     │  │ (Functions)    │  │  (Async Workers) │ │
+│  └───────────────┘  └────────────────┘  └──────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### Directory Structure
@@ -379,23 +379,5 @@ This project demonstrates proficiency in:
 - DevOps and deployment practices
 - Product thinking and user experience
 
-## Contact Information
-
-**Developer**: Dhiwahar K  
-**Email**: [Your Email]  
-**GitHub**: https://github.com/dhiwahar-k  
-**LinkedIn**: [Your LinkedIn]
-
-## Video Demo
-
-A comprehensive video demonstration is available at: [Video Link]
-
-The video covers:
-- Full workflow demonstration
-- Technical architecture explanation
-- Code walkthrough of key components
-- Live debugging and testing
-
----
 
 *Thank you for considering this submission. I'm excited about the opportunity to contribute to Squareshift's GenAI team and look forward to discussing how HireMind's architecture and implementation align with your technical requirements.*
