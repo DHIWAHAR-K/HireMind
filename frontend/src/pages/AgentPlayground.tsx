@@ -28,7 +28,18 @@ import { RootState } from '../store'
 import { runAgent } from '../store/workflowSlice'
 import { toggleSidebar } from '../store/uiSlice'
 import { AppDispatch } from '../store'
-import ReactMarkdown from 'react-markdown'
+
+// Helper function to clean markdown symbols
+const cleanMarkdownText = (text: string): string => {
+  if (!text) return ''
+  // Remove # headers, * bullets, ** bold, etc
+  return text
+    .replace(/#{1,6}\s/g, '') // Remove headers
+    .replace(/\*{1,2}/g, '')   // Remove * and **
+    .replace(/^\s*[-*+]\s/gm, '') // Remove bullet points
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Convert links to plain text
+    .trim()
+}
 
 const agents = [
   { value: 'role_definition', label: 'Role Definition Agent', description: 'Define job roles and requirements' },
@@ -309,8 +320,13 @@ export default function AgentPlayground() {
                         <Typography variant="body2" fontWeight="medium" gutterBottom>
                           Response:
                         </Typography>
-                        <Box sx={{ '& p': { mb: 1 } }}>
-                          <ReactMarkdown>{response.output}</ReactMarkdown>
+                        <Box component="pre" sx={{ 
+                          whiteSpace: 'pre-wrap',
+                          fontFamily: 'inherit',
+                          fontSize: 'inherit',
+                          m: 0
+                        }}>
+                          {cleanMarkdownText(response.output)}
                         </Box>
                       </Paper>
                       

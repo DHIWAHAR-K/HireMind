@@ -75,9 +75,52 @@ class HiringWorkflow:
         if self.redis_memory and self.current_session_id:
             try:
                 result = self._format_result(state)
+                # Add status field for frontend polling
+                result["status"] = "processing" if state.get("current_stage") != "completed" else "completed"
+                result["session_id"] = self.current_session_id
                 self.redis_memory.save_workflow_state(self.current_session_id, result)
+                logger.info(f"Progress saved for session {self.current_session_id}: stage={state.get('current_stage')}, completed={len(state.get('completed_stages', []))}")
             except Exception as e:
                 logger.error(f"Failed to save progress: {e}")
+    
+    def _save_as_hiring_profile(self, state: HiringState):
+        """Save completed workflow as a hiring profile."""
+        if self.redis_memory and self.current_session_id:
+            try:
+                # Extract role title from role definition
+                role_title = "Unknown Role"
+                role_def = state.get("role_definition", {})
+                if isinstance(role_def, dict) and "output" in role_def:
+                    role_output = role_def["output"]
+                    # Try to extract role title from the output
+                    if "Senior Backend Engineer" in role_output:
+                        role_title = "Senior Backend Engineer"
+                    elif "Backend Engineer" in role_output:
+                        role_title = "Backend Engineer"
+                    elif "Engineer" in role_output:
+                        role_title = "Software Engineer"
+                
+                # Create hiring profile
+                profile = {
+                    "role_title": role_title,
+                    "company_name": state.get("company_name", "Unknown Company"),
+                    "department": state.get("department", "Engineering"),
+                    "status": "completed",
+                    "role_definition": state.get("role_definition"),
+                    "job_description": state.get("job_description"),
+                    "interview_plan": state.get("interview_plan"),
+                    "timeline": state.get("timeline"),
+                    "salary_benchmark": state.get("salary_benchmark"),
+                    "offer_letter": state.get("offer_letter"),
+                    "completed_stages": state.get("completed_stages", []),
+                    "workflow_results": self._format_result(state)
+                }
+                
+                self.redis_memory.save_hiring_profile(self.current_session_id, profile)
+                logger.info(f"Hiring profile saved for session {self.current_session_id}: {role_title}")
+                
+            except Exception as e:
+                logger.error(f"Failed to save hiring profile: {e}")
     
     def _role_definition_node(self, state: HiringState) -> HiringState:
         """Define the role based on user input."""
@@ -270,6 +313,10 @@ class HiringWorkflow:
             
         state["current_stage"] = "completed"
         self._save_progress(state)
+        
+        # Save as hiring profile for persistence
+        self._save_as_hiring_profile(state)
+        
         return state
     
     def _get_timestamp(self) -> str:

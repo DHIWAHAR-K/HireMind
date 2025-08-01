@@ -289,10 +289,10 @@ export default function Dashboard() {
                           secondary={
                             <Box>
                               <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-                                🏢 {profile.department || 'Department not specified'}
+                                {profile.department || 'Department not specified'}
                               </Typography>
                               <Typography variant="caption" color="text.secondary">
-                                📅 Created: {profile.created_at ? new Date(profile.created_at).toLocaleDateString() : new Date().toLocaleDateString()}
+                                Created: {profile.created_at ? new Date(profile.created_at).toLocaleDateString() : new Date().toLocaleDateString()}
                               </Typography>
                             </Box>
                           }
@@ -304,7 +304,7 @@ export default function Dashboard() {
               ) : (
                 <Box sx={{ p: 4, textAlign: 'center' }}>
                   <Typography color="text.secondary" sx={{ mb: 2 }}>
-                    🎯 No hiring activities yet
+                    No hiring activities yet
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
                     Create your first hiring profile to see activity here
@@ -397,7 +397,7 @@ export default function Dashboard() {
                 {profiles.length > 0 && (
                   <Box sx={{ mt: 3, pt: 3, borderTop: '1px solid', borderColor: 'divider' }}>
                     <Typography variant="h6" fontWeight="600" sx={{ color: 'text.primary', mb: 2 }}>
-                      📊 This Month's Performance
+                      This Month's Performance
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
                       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -449,14 +449,14 @@ export default function Dashboard() {
               backgroundColor: 'background.paper'
             }}>
               <Typography variant="h6" fontWeight="600" sx={{ color: 'text.primary' }}>
-                💡 AI Tips & Team Activity
+                AI Tips & Team Activity
               </Typography>
             </Box>
             <CardContent sx={{ p: 2, flex: 1, display: 'flex', flexDirection: 'column' }}>
               {/* AI Tips Section */}
               <Box sx={{ mb: 3 }}>
                 <Typography variant="subtitle1" fontWeight="600" sx={{ color: 'text.primary', mb: 2 }}>
-                  💡 AI Tips & Best Practices
+                  AI Tips & Best Practices
                 </Typography>
                 <List sx={{ p: 0 }}>
                   <ListItem sx={{ px: 0, py: 1 }}>
@@ -469,7 +469,7 @@ export default function Dashboard() {
                       }} />
                     </ListItemIcon>
                     <ListItemText
-                      primary={<Typography variant="body2" fontWeight="600">🎯 Define clear requirements</Typography>}
+                      primary={<Typography variant="body2" fontWeight="600">Define clear requirements</Typography>}
                       secondary={<Typography variant="caption">Better candidate matching</Typography>}
                     />
                   </ListItem>
@@ -483,7 +483,7 @@ export default function Dashboard() {
                       }} />
                     </ListItemIcon>
                     <ListItemText
-                      primary={<Typography variant="body2" fontWeight="600">📊 Use structured interviews</Typography>}
+                      primary={<Typography variant="body2" fontWeight="600">Use structured interviews</Typography>}
                       secondary={<Typography variant="caption">Improved hiring accuracy</Typography>}
                     />
                   </ListItem>
@@ -497,7 +497,7 @@ export default function Dashboard() {
                       }} />
                     </ListItemIcon>
                     <ListItemText
-                      primary={<Typography variant="body2" fontWeight="600">⚡ Track your progress</Typography>}
+                      primary={<Typography variant="body2" fontWeight="600">Track your progress</Typography>}
                       secondary={<Typography variant="caption">Monitor hiring metrics</Typography>}
                     />
                   </ListItem>
@@ -507,7 +507,7 @@ export default function Dashboard() {
               {/* Recent Activities Section */}
               <Box sx={{ pt: 2, borderTop: '1px solid', borderColor: 'divider', flex: 1 }}>
                 <Typography variant="subtitle1" fontWeight="600" sx={{ color: 'text.primary', mb: 2 }}>
-                  📋 Recent Activities
+                  Recent Activities
                 </Typography>
                 {profiles.length > 0 ? (
                   <List sx={{ p: 0 }}>

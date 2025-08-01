@@ -1,28 +1,28 @@
-# HireMind - AI-Powered HR Hiring Process Assistant 🎯
+# HireMind - AI-Powered HR Hiring Process Assistant
 
 An intelligent agentic AI application that helps HR professionals at startups plan and execute their hiring processes efficiently. Built with LangGraph, LangChain Agents, OpenAI Function Calling, React, and FastAPI.
 
-## 🚀 Features
+## Features
 
 ### Core Functionality
-- **🎯 Role Definition**: AI-powered role scoping with industry best practices
-- **📄 JD Generation**: Create compelling, bias-free job descriptions using modern recruiting principles
-- **🎯 Interview Planning**: Design evidence-based interview processes with structured evaluation
-- **📅 Timeline Estimation**: Calculate realistic hiring timelines with urgency adjustments
-- **💰 Salary Benchmarking**: Real-time market salary data integration
-- **✉️ Offer Letter Generation**: Professional offer letter templates with customization
-- **🧠 Memory & Context**: Redis-powered persistent memory across sessions
+- **Role Definition**: AI-powered role scoping with industry best practices
+- **JD Generation**: Create compelling, bias-free job descriptions using modern recruiting principles
+- **Interview Planning**: Design evidence-based interview processes with structured evaluation
+- **Timeline Estimation**: Calculate realistic hiring timelines with urgency adjustments
+- **Salary Benchmarking**: Real-time market salary data integration
+- **Offer Letter Generation**: Professional offer letter templates with customization
+- **Memory & Context**: Redis-powered persistent memory across sessions
 
 ### Technical Features
-- **🔄 LangGraph Workflows**: Multi-agent orchestration with state management
-- **🤖 Enhanced AI Agents**: Industry-expert prompts with 15+ years of HR knowledge
-- **⚡ FastAPI Backend**: High-performance REST API with async support
-- **⚛️ React Frontend**: Modern, responsive web interface with Material-UI
-- **🗄️ Redis Integration**: Persistent memory and session management
-- **🧪 Comprehensive Testing**: 95%+ test coverage with pytest
-- **🔒 Security & Compliance**: EEOC-compliant practices and data protection
+- **LangGraph Workflows**: Multi-agent orchestration with state management
+- **Enhanced AI Agents**: Industry-expert prompts with 15+ years of HR knowledge
+- **FastAPI Backend**: High-performance REST API with async support
+- **React Frontend**: Modern, responsive web interface with Material-UI
+- **Redis Integration**: Persistent memory and session management
+- **Comprehensive Testing**: 95%+ test coverage with pytest
+- **Security & Compliance**: EEOC-compliant practices and data protection
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 HireMind/
@@ -45,7 +45,7 @@ HireMind/
 └── config/             # Configuration files
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **LangGraph**: Workflow orchestration and state management
 - **LangChain**: Agent framework and tool integration
@@ -53,13 +53,13 @@ HireMind/
 - **FastAPI**: API backend (optional)
 - **Streamlit**: Frontend UI (optional)
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Python 3.8+
 - OpenAI API key
 - Redis (optional, for persistent memory)
 
-## 🔧 Installation
+## Installation
 
 1. **Clone the repository**
    ```bash
@@ -84,7 +84,7 @@ HireMind/
    # Edit .env and add your OpenAI API key
    ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Conda Setup (Recommended)
 ```bash
@@ -168,7 +168,7 @@ cd ../frontend && npm run dev
 cd backend && python main.py
 ```
 
-## 🌐 Web Interface
+## Web Interface
 
 ### Dashboard
 - View recent hiring profiles and statistics
@@ -190,7 +190,7 @@ cd backend && python main.py
 - Search and filter by role, department, status
 - Export and share hiring plans
 
-## 📊 Workflow Stages
+## Workflow Stages
 
 1. **Role Definition**
    - Clarifies job requirements
@@ -222,7 +222,7 @@ cd backend && python main.py
    - Includes all compensation details
    - Ready for customization
 
-## 🧪 Testing
+##  Testing
 
 Run the test suite:
 
@@ -230,7 +230,7 @@ Run the test suite:
 pytest tests/ -v
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
@@ -238,7 +238,7 @@ pytest tests/ -v
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 🧪 Testing
+##  Testing
 
 Run the comprehensive test suite:
 
@@ -255,7 +255,7 @@ cd backend && pytest tests/test_workflows.py -v
 cd backend && pytest tests/test_api.py -v
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 ```bash
@@ -292,7 +292,7 @@ docker run -d -p 6379:6379 redis:alpine
 # Set REDIS_URL in .env to your cloud Redis URL
 ```
 
-## 📈 Performance & Scalability
+## Performance & Scalability
 
 - **Async Processing**: FastAPI with async/await for high concurrency
 - **Caching**: Redis for session data and response caching
@@ -300,7 +300,7 @@ docker run -d -p 6379:6379 redis:alpine
 - **Load Balancing**: Ready for horizontal scaling
 - **Rate Limiting**: Built-in protection against API abuse
 
-## 🔒 Security & Compliance
+## Security & Compliance
 
 - **Data Privacy**: No PII stored without consent
 - **EEOC Compliance**: Interview processes follow legal guidelines
@@ -308,7 +308,7 @@ docker run -d -p 6379:6379 redis:alpine
 - **Secure Storage**: Environment variables and encrypted sessions
 - **API Security**: Input validation and sanitization
 
-## 📚 API Documentation
+## API Documentation
 
 ### Key Endpoints
 
@@ -340,7 +340,7 @@ status = requests.get(f"http://localhost:8000/api/workflow/{session_id}")
 print(status.json())
 ```
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
 ### Common Conda Issues
 
@@ -413,7 +413,7 @@ redis-cli monitor
 # Or modify the ports in the scripts
 ```
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create feature branch: `git checkout -b feature/amazing-feature`
@@ -433,7 +433,7 @@ redis-cli monitor
 
 ## 📝 Roadmap
 
-### Phase 1 (Current) ✅
+### Phase 1 (Current)
 - [x] Core workflow implementation
 - [x] React frontend with Material-UI
 - [x] Redis memory integration
@@ -454,11 +454,11 @@ redis-cli monitor
 - [ ] Mobile app development
 - [ ] Enterprise SSO integration
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with LangChain and LangGraph
 - Powered by OpenAI GPT models

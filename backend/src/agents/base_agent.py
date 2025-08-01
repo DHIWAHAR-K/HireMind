@@ -35,7 +35,7 @@ class BaseHRAgent(ABC):
         # Initialize LLM
         self.llm = llm or ChatOpenAI(
             temperature=temperature,
-            model="gpt-4-turbo-preview"
+            model="gpt-3.5-turbo"
         )
         
         # Initialize memory

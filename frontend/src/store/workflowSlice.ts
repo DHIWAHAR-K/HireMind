@@ -72,7 +72,7 @@ const workflowSlice = createSlice({
         state.error = null
       })
       .addCase(startWorkflow.fulfilled, (state, action) => {
-        state.status = 'succeeded'
+        state.status = 'loading' // Keep loading status while processing
         state.sessionId = action.payload.session_id
         state.currentStage = action.payload.current_stage
         state.completedStages = action.payload.completed_stages
@@ -90,6 +90,14 @@ const workflowSlice = createSlice({
         state.completedStages = action.payload.completed_stages
         state.results = action.payload.results
         state.error = action.payload.error
+        // Update status based on workflow state
+        if (action.payload.status === 'completed') {
+          state.status = 'succeeded'
+        } else if (action.payload.status === 'failed') {
+          state.status = 'failed'
+        } else {
+          state.status = 'loading' // Keep loading status while processing
+        }
       })
       
       // Run agent

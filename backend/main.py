@@ -26,7 +26,7 @@ def print_section(title: str, content: str):
 
 async def run_hiring_workflow():
     """Run the complete hiring workflow."""
-    print("\n🚀 Welcome to HireMind - AI-Powered Hiring Assistant")
+    print("\nWelcome to HireMind - AI-Powered Hiring Assistant")
     print("="*60)
     
     # Get user input
@@ -37,10 +37,10 @@ async def run_hiring_workflow():
     user_input = input("\n> ")
     
     if not user_input.strip():
-        print("❌ No input provided. Exiting...")
+        print("No input provided. Exiting...")
         return
     
-    print("\n⏳ Processing your request...")
+    print("\nProcessing your request...")
     
     # Initialize workflow
     workflow = HiringWorkflow()
@@ -50,43 +50,43 @@ async def run_hiring_workflow():
         result = await workflow.arun(user_input)
         
         if result["success"]:
-            print("\n✅ Hiring process plan completed successfully!")
+            print("\nHiring process plan completed successfully!")
             
             # Display results
             if result.get("role_definition"):
-                print_section("📋 Role Definition", 
+                print_section("Role Definition", 
                             result["role_definition"]["output"])
             
             if result.get("job_description"):
-                print_section("📄 Job Description", 
+                print_section("Job Description", 
                             result["job_description"])
             
             if result.get("interview_plan"):
-                print_section("🎯 Interview Plan", 
+                print_section("Interview Plan", 
                             result["interview_plan"]["output"])
             
             if result.get("timeline"):
-                print_section("📅 Timeline Estimation", 
+                print_section("Timeline Estimation", 
                             result["timeline"]["output"])
             
             if result.get("salary_benchmark"):
-                print_section("💰 Salary Benchmark", 
+                print_section("Salary Benchmark", 
                             result["salary_benchmark"]["output"])
             
             if result.get("offer_letter"):
-                print_section("✉️ Offer Letter Template", 
+                print_section("Offer Letter Template", 
                             result["offer_letter"])
             
             # Summary
-            print("\n📊 Summary:")
+            print("\nSummary:")
             print(f"Completed stages: {', '.join(result['completed_stages'])}")
             
         else:
-            print(f"\n❌ Error: {result.get('error', 'Unknown error occurred')}")
+            print(f"\nError: {result.get('error', 'Unknown error occurred')}")
             
     except Exception as e:
         logger.error(f"Workflow error: {str(e)}")
-        print(f"\n❌ An error occurred: {str(e)}")
+        print(f"\nAn error occurred: {str(e)}")
 
 
 def run_interactive_mode():
@@ -94,7 +94,7 @@ def run_interactive_mode():
     from src.agents import RoleDefinitionAgent, JDGeneratorAgent, InterviewPlannerAgent
     from src.tools import get_all_tools
     
-    print("\n🤖 Interactive Mode - Work with Individual Agents")
+    print("\nInteractive Mode - Work with Individual Agents")
     print("="*60)
     
     tools = get_all_tools()
@@ -114,31 +114,31 @@ def run_interactive_mode():
         choice = input("\nSelect an option: ")
         
         if choice == "5":
-            print("\n👋 Thank you for using HireMind!")
+            print("\nThank you for using HireMind!")
             break
         elif choice == "4":
             asyncio.run(run_hiring_workflow())
         elif choice in agents:
             name, agent = agents[choice]
-            print(f"\n🤖 {name} Agent")
+            print(f"\n{name} Agent")
             print("-"*40)
             
             user_input = input("Enter your request: ")
             if user_input.strip():
-                print("\n⏳ Processing...")
+                print("\nProcessing...")
                 result = agent.run(user_input)
                 
                 if result["success"]:
                     print_section(f"{name} Result", result["output"])
                 else:
-                    print(f"❌ Error: {result.get('error', 'Unknown error')}")
+                    print(f"Error: {result.get('error', 'Unknown error')}")
         else:
-            print("❌ Invalid option. Please try again.")
+            print("Invalid option. Please try again.")
 
 
 def main():
     """Main entry point."""
-    print("\n🎯 HireMind - AI-Powered Hiring Assistant")
+    print("\nHireMind - AI-Powered Hiring Assistant")
     print("="*60)
     print("\nHow would you like to use HireMind?")
     print("1. Run Complete Hiring Workflow (Recommended)")
@@ -152,15 +152,15 @@ def main():
     elif choice == "2":
         run_interactive_mode()
     elif choice == "3":
-        print("\n👋 Goodbye!")
+        print("\nGoodbye!")
     else:
-        print("❌ Invalid option. Please run the program again.")
+        print("Invalid option. Please run the program again.")
 
 
 if __name__ == "__main__":
     # Check for OpenAI API key
     if not os.getenv("OPENAI_API_KEY"):
-        print("⚠️  Warning: OPENAI_API_KEY not found in environment variables.")
+        print("Warning: OPENAI_API_KEY not found in environment variables.")
         print("Please set it in your .env file or environment.")
         print("\nExample: export OPENAI_API_KEY='your-api-key-here'")
     else:

@@ -97,12 +97,18 @@ async def root():
     }
 
 
-@app.post("/api/workflow/start", response_model=WorkflowResponse)
-async def start_workflow(request: WorkflowStartRequest, background_tasks: BackgroundTasks):
-    """Start a new hiring workflow."""
+async def run_workflow_background(request: WorkflowStartRequest, session_id: str):
+    """Background task to run workflow with progress updates."""
     try:
-        # Generate session ID if not provided
-        session_id = request.session_id or str(uuid.uuid4())
+        # Initialize progress
+        initial_state = {
+            "session_id": session_id,
+            "status": "processing",
+            "current_stage": "role_definition",
+            "completed_stages": [],
+            "error": None
+        }
+        memory_store.save_workflow_state(session_id, initial_state)
         
         # Set up workflow for progress tracking
         workflow.redis_memory = memory_store
@@ -116,73 +122,45 @@ async def start_workflow(request: WorkflowStartRequest, background_tasks: Backgr
             thread_id=session_id
         )
         
-        # Save to Redis
-        if result["success"]:
-            memory_store.save_workflow_state(session_id, result)
-            
-            # Extract role title from role definition
-            role_title = "New Hiring Process"
-            if result.get("role_definition") and result["role_definition"].get("output"):
-                role_output = result["role_definition"]["output"]
-                
-                # Common role patterns to search for
-                role_patterns = [
-                    r"(?:Senior |Junior |Lead |Principal |Staff )?([\w\s]+?)\s*(?:Engineer|Developer|Manager|Designer|Analyst|Scientist|Specialist)",
-                    r"(?:VP|Vice President|Director|Head)\s+of\s+([\w\s]+)",
-                    r"([\w\s]+?)\s*(?:Role|Position)",
-                ]
-                
-                # Try to find a role title using patterns
-                for pattern in role_patterns:
-                    match = re.search(pattern, role_output, re.IGNORECASE)
-                    if match:
-                        role_title = match.group(0).strip()
-                        break
-                
-                # If no pattern matched, try specific keywords
-                if role_title == "New Hiring Process":
-                    role_keywords = [
-                        "Senior Backend Engineer", "Senior Software Engineer", 
-                        "Product Manager", "Data Scientist", "Frontend Engineer",
-                        "DevOps Engineer", "QA Engineer", "UX Designer", 
-                        "Marketing Manager", "Sales Manager"
-                    ]
-                    
-                    for keyword in role_keywords:
-                        if keyword.lower() in role_output.lower():
-                            role_title = keyword
-                            break
-                
-                # Last resort: use first meaningful line
-                if role_title == "New Hiring Process":
-                    lines = [line.strip() for line in role_output.strip().split('\n') if line.strip()]
-                    if lines:
-                        # Skip common headers and get first meaningful line
-                        for line in lines:
-                            if line and len(line) < 50 and not line.lower().startswith(('role:', 'position:', 'title:')):
-                                role_title = line
-                                break
-            
-            # Create hiring profile
-            profile = {
-                "role_title": role_title,
-                "department": request.department or "Not specified",
-                "status": "active",
-                **result
-            }
-            memory_store.save_hiring_profile(session_id, profile)
+        # Save final result
+        final_state = {
+            **result,
+            "status": "completed" if result["success"] else "failed"
+        }
+        memory_store.save_workflow_state(session_id, final_state)
         
+    except Exception as e:
+        logger.error(f"Background workflow error: {str(e)}")
+        error_state = {
+            "session_id": session_id,
+            "status": "failed",
+            "error": str(e),
+            "completed_stages": []
+        }
+        memory_store.save_workflow_state(session_id, error_state)
+
+@app.post("/api/workflow/start", response_model=WorkflowResponse)
+async def start_workflow(request: WorkflowStartRequest, background_tasks: BackgroundTasks):
+    """Start a new hiring workflow."""
+    try:
+        # Generate session ID if not provided
+        session_id = request.session_id or str(uuid.uuid4())
+        
+        # Start background task
+        background_tasks.add_task(run_workflow_background, request, session_id)
+        
+        # Return immediately with processing status
         return WorkflowResponse(
             session_id=session_id,
-            status="completed" if result["success"] else "failed",
-            current_stage="completed" if result["success"] else "error",
-            completed_stages=result.get("completed_stages", []),
-            results=result,
-            error=result.get("error")
+            status="processing",
+            current_stage="role_definition", 
+            completed_stages=[],
+            results={},
+            error=None
         )
         
     except Exception as e:
-        logger.error(f"Workflow error: {str(e)}")
+        logger.error(f"Workflow start error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
@@ -196,11 +174,22 @@ async def get_workflow_status(session_id: str):
         if not state:
             raise HTTPException(status_code=404, detail="Session not found")
         
+        # Determine status based on current stage and completion
+        current_stage = state.get("current_stage", "role_definition")
+        completed_stages = state.get("completed_stages", [])
+        
+        if current_stage == "completed" or len(completed_stages) >= 6:
+            status = "completed"
+        elif state.get("error"):
+            status = "failed"
+        else:
+            status = "processing"
+        
         return WorkflowResponse(
             session_id=session_id,
-            status="completed" if state.get("completed_stages") and len(state.get("completed_stages", [])) >= 6 else "processing",
-            current_stage=state.get("current_stage") or "role_definition",
-            completed_stages=state.get("completed_stages", []),
+            status=status,
+            current_stage=current_stage,
+            completed_stages=completed_stages,
             results=state,
             error=state.get("error")
         )

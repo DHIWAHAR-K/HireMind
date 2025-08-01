@@ -64,6 +64,7 @@ export default function NewHiring() {
   const [companyName, setCompanyName] = useState('')
   const [department, setDepartment] = useState('')
   const [currentStep, setCurrentStep] = useState(0)
+  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null)
   const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate()
   const { status, error, sessionId, completedStages } = useSelector(
@@ -81,9 +82,14 @@ export default function NewHiring() {
         department: department || undefined
       }))
       if (startWorkflow.fulfilled.match(result)) {
+        // Clear any existing polling interval
+        if (pollingInterval) {
+          clearInterval(pollingInterval)
+        }
         // Start polling for progress updates
         const sessionId = result.payload.session_id
-        startProgressPolling(sessionId)
+        const interval = startProgressPolling(sessionId)
+        setPollingInterval(interval)
       }
     } catch (error) {
       console.error('Failed to start workflow:', error)
@@ -91,8 +97,20 @@ export default function NewHiring() {
   }
 
   const startProgressPolling = (sessionId: string) => {
+    let pollCount = 0
+    const maxPolls = 90 // Maximum 90 polls (3 minutes at 2s intervals)
+    
     const pollInterval = setInterval(async () => {
       try {
+        pollCount++
+        
+        // Stop polling if we've exceeded max polls
+        if (pollCount > maxPolls) {
+          console.log('Max polling attempts reached, stopping...')
+          clearInterval(pollInterval)
+          return
+        }
+        
         const statusResult = await dispatch(getWorkflowStatus(sessionId))
         if (getWorkflowStatus.fulfilled.match(statusResult)) {
           const { status: workflowStatus, completed_stages } = statusResult.payload
@@ -102,24 +120,27 @@ export default function NewHiring() {
             setCurrentStep(completed_stages.length)
           }
           
-          // If workflow is completed, stop polling and navigate
+          // If workflow is completed or failed, stop polling
           if (workflowStatus === 'completed' || workflowStatus === 'failed') {
+            console.log(`Workflow ${workflowStatus}, stopping polling...`)
             clearInterval(pollInterval)
+            setPollingInterval(null)
+            
             if (workflowStatus === 'completed') {
+              console.log('Navigating to results page...')
               navigate(`/hiring/${sessionId}`)
             }
+            return
           }
         }
       } catch (error) {
         console.error('Error polling workflow status:', error)
         clearInterval(pollInterval)
       }
-    }, 2000) // Poll every 2 seconds
+    }, 2000) // Poll every 2 seconds for responsive updates
 
-    // Clear interval after 5 minutes to prevent infinite polling
-    setTimeout(() => {
-      clearInterval(pollInterval)
-    }, 300000)
+    // Store interval reference for cleanup
+    return pollInterval
   }
 
   // Update current step based on completed stages
@@ -128,6 +149,26 @@ export default function NewHiring() {
       setCurrentStep(completedStages.length)
     }
   }, [completedStages])
+
+  // Cleanup polling interval on component unmount
+  React.useEffect(() => {
+    return () => {
+      if (pollingInterval) {
+        console.log('Cleaning up polling interval on unmount')
+        clearInterval(pollingInterval)
+      }
+    }
+  }, [pollingInterval])
+
+  // Stop polling and navigate when workflow succeeds
+  React.useEffect(() => {
+    if (status === 'succeeded' && sessionId && pollingInterval) {
+      console.log('Workflow succeeded, stopping polling and navigating...')
+      clearInterval(pollingInterval)
+      setPollingInterval(null)
+      navigate(`/hiring/${sessionId}`)
+    }
+  }, [status, sessionId, pollingInterval, navigate])
 
   const examples = [
     "We need a Senior Backend Engineer for our fintech startup. Should have 5+ years experience with Python, AWS, and microservices. Will lead our payment processing team.",
