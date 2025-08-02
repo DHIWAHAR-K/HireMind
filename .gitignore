@@ -127,4 +127,3 @@ logs/
 /backend/.env
 /backend/hiremind.db
 video.mov
-.claude/
